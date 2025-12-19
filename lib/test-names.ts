@@ -1,0 +1,223 @@
+export type NameTestCase = {
+  id: number
+  targetName: string
+  candidateName: string
+  expectedMatch: boolean
+  rationale: string
+}
+
+// Names are intentionally included AS-IS from the prompt (casing/punctuation included).
+export const nameTestCases: NameTestCase[] = [
+  {
+    id: 1,
+    targetName: "Tyler Bliha",
+    candidateName: "Tlyer Bilha",
+    expectedMatch: true,
+    rationale: "Minor transposition and misspelling in both first and last name",
+  },
+  {
+    id: 2,
+    targetName: "Al-Hilal",
+    candidateName: "alhilal",
+    expectedMatch: true,
+    rationale: "Hyphen and casing differences only",
+  },
+  {
+    id: 3,
+    targetName: "Dargulov",
+    candidateName: "Darguloff",
+    expectedMatch: true,
+    rationale: "Common phonetic suffix variation (v vs ff)",
+  },
+  {
+    id: 4,
+    targetName: "Bob Ellensworth",
+    candidateName: "Robert Ellensworth",
+    expectedMatch: true,
+    rationale: "Common nickname vs formal name",
+  },
+  {
+    id: 5,
+    targetName: "Mohammed Al Fayed",
+    candidateName: "Muhammad Alfayed",
+    expectedMatch: true,
+    rationale: "Spacing and transliteration variance",
+  },
+  {
+    id: 6,
+    targetName: "Sarah O'Connor",
+    candidateName: "Sara Oconnor",
+    expectedMatch: true,
+    rationale: "Apostrophe removal and vowel simplification",
+  },
+  {
+    id: 7,
+    targetName: "Jonathon Smith",
+    candidateName: "Jonathan Smith",
+    expectedMatch: true,
+    rationale: "Common spelling variant of first name",
+  },
+  {
+    id: 8,
+    targetName: "Abdul Rahman ibn Saleh",
+    candidateName: "Abdulrahman ibn Saleh",
+    expectedMatch: true,
+    rationale: "Spacing variation within compound name",
+  },
+  {
+    id: 9,
+    targetName: "Al Hassan Al Saud",
+    candidateName: "Al-Hasan Al Saud",
+    expectedMatch: true,
+    rationale: "Minor consonant simplification and hyphenation",
+  },
+  {
+    id: 10,
+    targetName: "Katherine McDonald",
+    candidateName: "Catherine Macdonald",
+    expectedMatch: true,
+    rationale: "Phonetic first name and common Mc/Mac variation",
+  },
+  {
+    id: 11,
+    targetName: "Yusuf Al Qasim",
+    candidateName: "Youssef Alkasim",
+    expectedMatch: true,
+    rationale: "Transliteration differences in Arabic-derived names",
+  },
+  {
+    id: 12,
+    targetName: "Steven Johnson",
+    candidateName: "Stephen Jonson",
+    expectedMatch: true,
+    rationale: "Phonetic spelling differences in both names",
+  },
+  {
+    id: 13,
+    targetName: "Alexander Petrov",
+    candidateName: "Aleksandr Petrof",
+    expectedMatch: true,
+    rationale: "Slavic transliteration and phonetic variation",
+  },
+  {
+    id: 14,
+    targetName: "Jean-Luc Picard",
+    candidateName: "Jean Luc Picard",
+    expectedMatch: true,
+    rationale: "Hyphen removal",
+  },
+  {
+    id: 15,
+    targetName: "Mikhail Gorbachov",
+    candidateName: "Mikhail Gorbachev",
+    expectedMatch: true,
+    rationale: "Alternate transliteration endings",
+  },
+  {
+    id: 16,
+    targetName: "Elizabeth Turner",
+    candidateName: "Liz Turner",
+    expectedMatch: true,
+    rationale: "Common nickname shortening",
+  },
+  {
+    id: 17,
+    targetName: "Omar ibn Al Khattab",
+    candidateName: "Omar Ibn Alkhattab",
+    expectedMatch: true,
+    rationale: "Case, spacing, and compound-name variance",
+  },
+  {
+    id: 18,
+    targetName: "Sean O'Brien",
+    candidateName: "Shawn Obrien",
+    expectedMatch: true,
+    rationale: "Phonetic first name and punctuation removal",
+  },
+  {
+    id: 19,
+    targetName: "Emanuel Oscar",
+    candidateName: "Belinda Oscar",
+    expectedMatch: false,
+    rationale: "Same last name but entirely different first name",
+  },
+  {
+    id: 20,
+    targetName: "Michael Thompson",
+    candidateName: "Michelle Thompson",
+    expectedMatch: false,
+    rationale: "Similar-looking but distinct first names",
+  },
+  {
+    id: 21,
+    targetName: "Ali Hassan",
+    candidateName: "Hassan Ali",
+    expectedMatch: false,
+    rationale: "Token order swap changes identity",
+  },
+  {
+    id: 22,
+    targetName: "John Smith",
+    candidateName: "James Smith",
+    expectedMatch: false,
+    rationale: "Different common first names",
+  },
+  {
+    id: 23,
+    targetName: "Abdullah ibn Omar",
+    candidateName: "Omar ibn Abdullah",
+    expectedMatch: false,
+    rationale: "Reversal of patronymic meaning",
+  },
+  {
+    id: 24,
+    targetName: "Maria Gonzalez",
+    candidateName: "Mario Gonzalez",
+    expectedMatch: false,
+    rationale: "Gendered name difference",
+  },
+  {
+    id: 25,
+    targetName: "Christopher Nolan",
+    candidateName: "Christian Nolan",
+    expectedMatch: false,
+    rationale: "Similar prefix but distinct names",
+  },
+  {
+    id: 26,
+    targetName: "Ahmed Al Rashid",
+    candidateName: "Ahmed Al Rashidi",
+    expectedMatch: false,
+    rationale: "Different surname root",
+  },
+  {
+    id: 27,
+    targetName: "Samantha Lee",
+    candidateName: "Samuel Lee",
+    expectedMatch: false,
+    rationale: "Different first name despite shared root",
+  },
+  {
+    id: 28,
+    targetName: "Ivan Petrov",
+    candidateName: "Ilya Petrov",
+    expectedMatch: false,
+    rationale: "Distinct given names in same cultural group",
+  },
+  {
+    id: 29,
+    targetName: "Fatima Zahra",
+    candidateName: "Zahra Fatima",
+    expectedMatch: false,
+    rationale: "Name order inversion changes identity",
+  },
+  {
+    id: 30,
+    targetName: "William Carter",
+    candidateName: "Liam Carter",
+    expectedMatch: false,
+    rationale: "Nickname not universally equivalent without explicit mapping",
+  },
+]
+
+
