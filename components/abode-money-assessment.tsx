@@ -5,7 +5,6 @@ import * as React from "react"
 import { Example, ExampleWrapper } from "@/components/example"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { ButtonGroup, ButtonGroupText } from "@/components/ui/button-group"
 import {
   Card,
   CardContent,
@@ -44,6 +43,41 @@ type NameTestRunResult = {
     pass: boolean
     error: string | null
   }>
+}
+
+type ApiError = { error: string }
+
+function isApiError(value: unknown): value is ApiError {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "error" in value &&
+    typeof (value as { error?: unknown }).error === "string"
+  )
+}
+
+function isGenerateTargetSuccess(value: GenerateTargetResponse): value is { targetName: string } {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "targetName" in value &&
+    typeof (value as { targetName?: unknown }).targetName === "string"
+  )
+}
+
+function isVerifyNameSuccess(
+  value: NameVerificationResponse
+): value is { match: boolean; confidence: number; reason: string } {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "match" in value &&
+    typeof (value as { match?: unknown }).match === "boolean" &&
+    "confidence" in value &&
+    typeof (value as { confidence?: unknown }).confidence === "number" &&
+    "reason" in value &&
+    typeof (value as { reason?: unknown }).reason === "string"
+  )
 }
 
 export function AbodeMoneyAssessment() {
@@ -87,6 +121,10 @@ export function AbodeMoneyAssessment() {
         throw new Error("error" in data ? data.error : "Failed to generate.")
       }
 
+      if (!isGenerateTargetSuccess(data)) {
+        throw new Error(isApiError(data) ? data.error : "Malformed generate-target response.")
+      }
+
       setLatestTargetName(data.targetName.trim())
     } catch (err) {
       setGenerateError(err instanceof Error ? err.message : String(err))
@@ -121,11 +159,11 @@ export function AbodeMoneyAssessment() {
         throw new Error("error" in data ? data.error : "Failed to verify.")
       }
 
-      setVerificationResult({
-        match: data.match,
-        confidence: data.confidence,
-        reason: data.reason,
-      })
+      if (!isVerifyNameSuccess(data)) {
+        throw new Error(isApiError(data) ? data.error : "Malformed verify-name response.")
+      }
+
+      setVerificationResult(data)
     } catch (err) {
       setVerifyError(err instanceof Error ? err.message : String(err))
     } finally {
@@ -140,11 +178,16 @@ export function AbodeMoneyAssessment() {
 
     try {
       const res = await fetch("/api/run-tests", { method: "POST" })
-      const data = (await res.json()) as NameTestRunResult | { error: string }
+      const data = (await res.json()) as NameTestRunResult | ApiError
       if (!res.ok) {
         throw new Error("error" in data ? data.error : "Failed to run tests.")
       }
-      setTestRun(data as NameTestRunResult)
+
+      if (isApiError(data)) {
+        throw new Error(data.error)
+      }
+
+      setTestRun(data)
     } catch (err) {
       setTestError(err instanceof Error ? err.message : String(err))
     } finally {

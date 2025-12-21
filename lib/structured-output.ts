@@ -31,6 +31,10 @@ function tryParseJSONObject(raw: string): unknown {
 type ChatCompletionResponse = Awaited<ReturnType<typeof openai.chat.completions.create>>
 
 function extractRawJSONText(response: ChatCompletionResponse) {
+  if (!("choices" in response)) {
+    throw new Error("Streaming chat completions are not supported by createStructuredOutput().")
+  }
+
   const choice = response.choices?.[0]
   const message = choice?.message
 
@@ -79,6 +83,7 @@ export async function createStructuredOutput<T>({
         { role: "system", content: instructions },
         { role: "user", content: input },
       ],
+      stream: false,
       reasoning_effort: "minimal",
       max_completion_tokens: tokens,
       response_format: {
