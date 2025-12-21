@@ -1,3 +1,5 @@
+# Abode Assessment
+
 ## Getting Started
 
 Run development server:
@@ -7,6 +9,11 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Required .env Variables
+```
+OPENAI_API_KEY
+```
 
 ## Stack
 
